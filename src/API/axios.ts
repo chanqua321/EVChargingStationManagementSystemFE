@@ -1,0 +1,85 @@
+import axios, { AxiosInstance } from "axios";
+import { HTTP_ERROR_MESSAGES } from "./constants/httpErrors";
+
+// Đọc biến môi trường từ Vite, fallback về localhost khi dev
+const apiUrl = import.meta.env.VITE_API_URL || "https://localhost:7252/api";
+
+const api: AxiosInstance = axios.create({
+  baseURL: apiUrl,
+  timeout: 30000, // 30 giây
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// ===== Interceptor Request =====
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    // Nếu gửi FormData thì bỏ Content-Type để browser tự set boundary
+    if (config.data instanceof FormData && config.headers) {
+      delete (config.headers as Record<string, unknown>)["Content-Type"];
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// ===== Interceptor Response =====
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // TIMEOUT
+    if (error.code === "ECONNABORTED" || error.message.includes("timeout")) {
+      return Promise.reject(new Error("Yêu cầu mất quá nhiều thời gian, vui lòng thử lại sau."));
+    }
+
+    // KHÔNG NHẬN ĐƯỢC PHẢN HỒI (mạng / SSL / CORS)
+    if (error.request && !error.response) {
+      return Promise.reject(new Error("Không nhận được phản hồi từ máy chủ."));
+    }
+
+    // LỖI TỪ BACKEND
+    if (error.response) {
+      const status = error.response.status;
+
+      if (status === 401) {
+        return Promise.reject(new Error("Phiên đăng nhập đã hết hạn"));
+      }
+
+      if (status === 403) {
+        return Promise.reject(new Error("Không có quyền truy cập"));
+      }
+
+      if (status === 400 && error.response.data?.errors) {
+        return Promise.reject(error.response.data);
+      }
+
+      if (status === 409 && error.response.data?.message) {
+        return Promise.reject(error.response.data);
+      }
+
+      let message = "";
+      if (typeof error.response.data === "string" && error.response.data.trim() !== "") {
+        message = error.response.data;
+      } else {
+        message =
+          error.response.data?.message ||
+          error.response.data ||
+          HTTP_ERROR_MESSAGES[status] ||
+          `Lỗi HTTP status ${status}`;
+      }
+
+      return Promise.reject(message);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default api;

@@ -127,7 +127,7 @@ const OrderChargingST = () => {
           parseFloat(st.longitude)
         ),
       }))
-      .filter((st) => st.distance <= 100) // chỉ hiện trạm trong bán kính 
+      .filter((st) => st.distance <= 15) // chỉ hiện trạm trong bán kính 5km
       .sort((a, b) => a.distance - b.distance);
 
     if (displayedStations.length === 0) {
@@ -374,7 +374,7 @@ const OrderChargingST = () => {
 
             {showUserLocation && (
               <button className="btn-admin" onClick={handleRefreshLocation}>
-                 Cập nhật vị trí
+                🔄 Cập nhật vị trí
               </button>
             )}
         </div>
@@ -439,8 +439,6 @@ const OrderChargingST = () => {
               <p>
                 {st.location}, {st.province}
               </p>
-              <p>Nhân Viên Trạm: {st.operatorName}</p>
-              <p>Số Điện Thoại Nhân Viên: {st.operatorPhone}</p>
               
 
 
@@ -599,7 +597,6 @@ const OrderChargingST = () => {
                                     p.vehicleTypeSupported?.toLowerCase().includes("car")
                                 ).length}
                               </liv>
-                              <p></p>
                               <liv>
                                 Trụ Sạc Xe Máy Đang Hoạt Động:{" "}
                                 {stationPosts[station.id].filter(
@@ -625,17 +622,9 @@ const OrderChargingST = () => {
                           </div>
                          <h4>Thông tin thêm</h4>
                           <ul className="popup-extra">
-                            <liv>Thời gian hoạt động: 24/7</liv>
-                            <p></p>
-                            <liv>Trạm sạc: Công cộng</liv>
-                            <p></p>
-                            <liv>
-                            Nhân Viên Trạm: {station.operatorName}
-                            </liv>
-                            <p></p>
-                            <liv>
-                            Số Điện Thoại Nhân Viên: {station.operatorPhone}
-                            </liv>
+                            <liv>Thời gian hoạt động: <b>24/7</b></liv>
+                            <liv>Trạm sạc: <b>Công cộng</b></liv>
+                            <liv>Có thể mất phí gửi xe</liv>
                           </ul>
                       
                     </div>

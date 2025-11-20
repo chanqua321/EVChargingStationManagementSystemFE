@@ -5,7 +5,7 @@ import { Zap } from "lucide-react";
 import { register as registerApi } from "../../API/Auth";
 import InputField from "../account/InputField";
 import SocialLogin from "../account/SocialLogin";
-import "./Signup.css";
+import "./signup.css";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = useState({});np
+  const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState("");
 

@@ -6,13 +6,12 @@ import { addBooking ,MyBooking} from "../../API/Booking.js";
 import { getVehicleModels } from "../../API/Admin";
 import { getEVDriverProfile} from "../../API/EVDriver.js";
 import { jwtDecode } from "jwt-decode";
-import { useNotifications } from "../notification/useNotifications";
+import { useNotifications } from "../notification/NotificationContext.jsx";
 import {getChargingStationId} from "../../API/Station.js"
 
 
 import "react-toastify/dist/ReactToastify.css";
 import "./Booking.css";
-import Login from "../pages/Login.jsx";
 export default function BookingPopup({ stations = [], stationId, onClose, onAdded }) {
   const [termStation, setTermStation] = useState("");
   const [termVehicle, setTermVehicle] = useState("");
@@ -25,9 +24,6 @@ export default function BookingPopup({ stations = [], stationId, onClose, onAdde
   const [isStationLocked, setIsStationLocked] = useState(false);
   const { addNotification } = useNotifications();
   const navigate = useNavigate();
-  
-  
-  
 
   const [bookingData, setBookingData] = useState({
     stationId: stationId || "",
@@ -342,8 +338,9 @@ console.log("Lấy Role:", role);
         />
 
         <div className="popup-buttons">
-          <button className="add-btn" onClick={handleAddBooking}>Xác nhận</button>
           <button className="cancel-btn" onClick={onClose}>Hủy</button>
+          <button className="add-btn" onClick={handleAddBooking}>Xác nhận</button>
+          
         </div>
       </div>
 

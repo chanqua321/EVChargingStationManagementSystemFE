@@ -426,18 +426,18 @@ const OrderChargingST = () => {
           </button>
           )}
           {/* Chỉ ADMIN mới thấy Admin Panel */}
-          {user?.role === "Admin" && (
+          {/* {user?.role === "Admin" && (
             <button className="btn-admin" onClick={() => setShowAdminPopup(true)}>
               Quản lý trạm sạc
             </button>
-          )}
+          )} */}
 
           {/* Admin & Staff đều thấy Quản lý trụ sạc */}
-          {(user?.role === "Admin" || user?.role === "Staff") && (
+          {/* {(user?.role === "Admin" || user?.role === "Staff") && (
             <button className="btn-admin" onClick={() => setShowPostPopup(true)}>
               Quản lý trụ sạc
             </button>
-          )}
+          )} */}
         </div>
 
         <div className="station-list">
@@ -709,18 +709,12 @@ const OrderChargingST = () => {
 
 
                     // (Optional) Kiểm tra còn trụ available
-                    const hasAvailablePost = posts.some(p => p.status?.toLowerCase() === "available");
+                    const activePile = stationPosts[station.id]?.some(
+                        p => p.status?.toLowerCase() === "available"
+                      );
 
-                    if (!hasAvailablePost) {
-                      toast.warning("Trạm này hiện không còn trụ nào khả dụng!");
-                      return;
-                    }
-
-
-                      // Kiểm tra trụ active
-                      const activePile = stationPosts[station.id]?.some(p => p.status === "Available");
                       if (!activePile) {
-                        toast.warning("Trạm này không còn trụ sạc nào hoạt động!");
+                        toast.warning("Trạm này không còn trụ sạc nào khả dụng!");
                         return;
                       }
 

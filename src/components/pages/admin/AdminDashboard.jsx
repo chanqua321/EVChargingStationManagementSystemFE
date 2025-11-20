@@ -128,8 +128,7 @@ const AdminDashboard = () => {
     return (
         <div className="admin-dashboard">
             <div className="header">
-                <h1>Dashboard Quản Trị</h1>
-                <p>Tổng quan hệ thống trạm sạc xe điện</p>
+                <h1>Tổng quan hệ thống trạm sạc xe điện</h1>
             </div>
 
             {/* Statistics Cards */}
@@ -232,6 +231,9 @@ const AdminDashboard = () => {
                     pagination={false}
                     size="small"
                     style={{ background: 'transparent' }}
+                    locale={{
+                        emptyText: "Không có đơn hàng nào"
+                    }}
                 />
             </div>
         </div>

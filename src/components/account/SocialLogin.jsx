@@ -8,7 +8,7 @@ export default function SocialLogin() {
   const handleCredentialResponse = async (response) => {
     console.log("✅ ID Token:", response.credential);
     try {
-      const res = await fetch("https://ev-charging-station-management-syst-eight.vercel.app/api/Auth/login-google", {
+      const res = await fetch("https://evcsms-api-dbgedpdtcrgub0f9.southeastasia-01.azurewebsites.net/api/Auth/login-google", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken: response.credential }),

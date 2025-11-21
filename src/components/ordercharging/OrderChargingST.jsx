@@ -695,10 +695,10 @@ const OrderChargingST = () => {
                     }
 
                     // Kiểm tra profile đầy đủ
-                    if (!user.fullName || !user.phone || !user.carModel) {
-                      toast.warning("Vui lòng cập nhật đầy đủ hồ sơ trước khi đặt lịch sạc!");
-                      return;
-                    }
+                    // if (!user.fullName || !user.phone || !user.carModel) {
+                    //   toast.warning("Vui lòng cập nhật đầy đủ hồ sơ trước khi đặt lịch sạc!");
+                    //   return;
+                    // }
 
                     // Kiểm tra trạm active
                     if (!station || station.status !== "Active") {
